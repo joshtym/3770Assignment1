@@ -2,7 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QLabel>
 #include "AddCourse.h"
+#include "DeleteCourse.h"
+#include "MessageWindow.h"
 
 class QLabel;
 class QPushButton;
@@ -13,12 +16,13 @@ class mainWindow : public QMainWindow
 	
 	public:
 		mainWindow();
+		QString getText(int);
 	
 	private slots:
 		void addCourse();
 		void deleteCourse();
 		void receiveCourse(const QString&, const QString&);
-		void receiveDeletion();
+		void receiveDeletion(const QString&);
 		
 	private:
 		QLabel *courseName1;
@@ -38,6 +42,8 @@ class mainWindow : public QMainWindow
 		QPushButton *deleteCourseButton;
 		QPushButton *quitButton; 
 		AddCourse *courseAdder;
+		MessageWindow *warningMessage;
+		DeleteCourse *courseDeleter;
 };
 
 #endif

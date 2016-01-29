@@ -109,6 +109,27 @@ mainWindow::mainWindow()
 	centralWidget->setLayout(primaryDisplayUnit);
 	
 	courseAdder = 0;
+	courseDeleter = 0;
+	warningMessage = 0;
+}
+
+QString mainWindow::getText(int courseNumber)
+{
+	switch (courseNumber)
+	{
+		case 1:
+			return courseName1->text();
+		case 2:
+			return courseName2->text();
+		case 3:
+			return courseName3->text();
+		case 4:
+			return courseName4->text();
+		case 5:
+			return courseName5->text();
+		default:
+			return "";
+	}
 }
 
 void mainWindow::addCourse()
@@ -126,13 +147,22 @@ void mainWindow::addCourse()
 
 void mainWindow::deleteCourse()
 {
+	if (!(courseDeleter))
+	{
+		courseDeleter = new DeleteCourse(this);
+		
+		connect(courseDeleter, SIGNAL(deleteSend(const QString&)), this, SLOT(receiveDeletion(const QString&)));;
+	}
+	courseDeleter->reset(courseName1, courseName2, courseName3, courseName4, courseName5);
+	courseDeleter->show();
+	courseDeleter->activateWindow();
 }
 
 void mainWindow::receiveCourse(const QString& givenCourseName, const QString& givenLetterGrade)
 {
 	QFont font3("Arial", 18);
 	
-	if (courseName1->text() == "Please select Add Course to add a course and grade number.")
+	if (courseName1->text() == "")
 	{
 		courseName1->setText(givenCourseName);
 		gradeLetter1->setText(givenLetterGrade);
@@ -158,8 +188,59 @@ void mainWindow::receiveCourse(const QString& givenCourseName, const QString& gi
 		courseName5->setText(givenCourseName);
 		gradeLetter5->setText(givenLetterGrade);
 	}
+	else
+	{
+		if (!(warningMessage))
+			warningMessage = new MessageWindow(this, "Warning: You have already added 5 courses");
+			
+		warningMessage->show();
+		warningMessage->activateWindow();
+	}
+			
 }
 
-void mainWindow::receiveDeletion()
+void mainWindow::receiveDeletion(const QString& givenCourseName)
 {
+	if (givenCourseName == courseName1->text())
+	{
+		courseName1->setText(courseName2->text());
+		gradeLetter1->setText(gradeLetter2->text());
+		
+		courseName2->setText(courseName3->text());
+		gradeLetter2->setText(gradeLetter3->text());
+		
+		courseName3->setText(courseName4->text());
+		gradeLetter3->setText(gradeLetter4->text());
+		
+		courseName4->setText(courseName5->text());
+		gradeLetter4->setText(gradeLetter5->text());
+	}
+	else if (givenCourseName == courseName2->text())
+	{
+		courseName2->setText(courseName3->text());
+		gradeLetter2->setText(gradeLetter3->text());
+		
+		courseName3->setText(courseName4->text());
+		gradeLetter3->setText(gradeLetter4->text());
+		
+		courseName4->setText(courseName5->text());
+		gradeLetter4->setText(gradeLetter5->text());
+	}
+	else if (givenCourseName == courseName3->text())
+	{
+		courseName3->setText(courseName4->text());
+		gradeLetter3->setText(gradeLetter4->text());
+		
+		courseName4->setText(courseName5->text());
+		gradeLetter4->setText(gradeLetter5->text());
+	}
+	else if (givenCourseName == courseName4->text())
+	{
+		courseName4->setText(courseName5->text());
+		gradeLetter4->setText(gradeLetter5->text());
+		
+	}
+	
+	courseName5->setText("");
+	gradeLetter5->setText("");
 }

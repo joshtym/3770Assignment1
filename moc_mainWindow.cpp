@@ -41,7 +41,7 @@ static const uint qt_meta_data_mainWindow[] = {
 static const char qt_meta_stringdata_mainWindow[] = {
     "mainWindow\0\0addCourse()\0deleteCourse()\0"
     ",\0receiveCourse(QString,QString)\0"
-    "receiveDeletion()\0"
+    "receiveDeletion(QString)\0"
 };
 
 void mainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -53,7 +53,7 @@ void mainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 0: _t->addCourse(); break;
         case 1: _t->deleteCourse(); break;
         case 2: _t->receiveCourse((*reinterpret_cast< const QString(*)>(_a[1])),(*reinterpret_cast< const QString(*)>(_a[2]))); break;
-        case 3: _t->receiveDeletion(); break;
+        case 3: _t->receiveDeletion((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }
     }

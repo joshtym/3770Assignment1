@@ -83,4 +83,5 @@ void AddCourse::addClicked()
 	QString grade = letterGrade->currentText();
 	
 	emit courseSend(course, grade);
+	close();
 }
